@@ -19,9 +19,6 @@ set_property(TARGET libjupiter-engine
     PROPERTY CXX_STANDARD 14
 )
 
-# Put the Find*.cmake files at ./cmake onto the module path
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
-
 # Add the ./include directories to the build path so header files and images are available
 target_include_directories(libjupiter-engine PUBLIC ${PROJECT_SOURCE_DIR}/include/)
 target_include_directories(libjupiter-engine PUBLIC ${PROJECT_SOURCE_DIR}/include/event/)
