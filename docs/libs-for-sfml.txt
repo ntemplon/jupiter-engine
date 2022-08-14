@@ -1,4 +1,3 @@
 libxrandr-dev
 libfreetype-dev
-
 libudev-dev
