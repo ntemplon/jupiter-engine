@@ -5,38 +5,52 @@
 
 #include <SFML/System.hpp>
 
+#include <functional>
+
 class StateMachine
 {
 public:
     class State
     {
     public:
-        State();
-        virtual ~State();
+        State(StateMachine &owner);
+        virtual ~State() = default;
 
         virtual void entry();
         virtual void exit();
         virtual void update(const sf::Time deltaT);
 
-        virtual void handleEvent(const Event event);
+        virtual void handleEvent(const Event &event);
+
+    private:
+        StateMachine &_owner;
     };
 
-    class StateTransition : public Event
+    class StateTransition
     {
     public:
-        virtual State &sourceState() const;
-        virtual State targetState() const;
-        virtual void effect();
+        StateTransition(StateMachine &context, State &source, State &target, std::function<void()> effect);
+
+        State &getSourceState() const;
+        State &getTargetState() const;
+        void effect();
+
+    private:
+        StateMachine &_context;
+        State &_source;
+        State &_target;
+        std::function<void()> _effect;
     };
 
     StateMachine(Dispatcher &dispatcher);
 
-    void update(sf::Time deltaT);
-    const Dispatcher getDispatcher() const;
-    const State &getState() const;
-    void setState(State state);
+    void update(const sf::Time deltaT);
+    Dispatcher &getDispatcher() const;
+    State &getState() const;
 
 private:
     Dispatcher &_dispatcher;
-    State _currentState;
+    State &_currentState;
+
+    void setState(State &state);
 };
