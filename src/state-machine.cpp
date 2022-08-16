@@ -1,6 +1,6 @@
 #include <StateMachine.hpp>
 
-StateMachine::StateMachine(Dispatcher &dispatcher, std::shared_ptr<State> &initialState) : _dispatcher(dispatcher), _currentState(initialState)
+StateMachine::StateMachine(Dispatcher &dispatcher) : _dispatcher(dispatcher)
 {
 }
 

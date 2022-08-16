@@ -12,6 +12,9 @@
 class StateMachine
 {
 public:
+    class State;
+    class StateTransition;
+
     class State
     {
     public:
@@ -26,6 +29,7 @@ public:
 
     protected:
         void registerEventResponse(const std::string eventId, const std::function<void(const Event &)> &response);
+        void registerTransition(const std::string eventId, StateTransition &transition);
 
     private:
         StateMachine &_owner;
@@ -35,21 +39,25 @@ public:
     class StateTransition
     {
     public:
-        StateTransition(StateMachine &context, std::shared_ptr<State> &source, std::shared_ptr<State> &target, std::function<void()> &effect);
+        StateTransition(std::shared_ptr<State> &source, std::shared_ptr<State> &target, std::function<bool(const Event &)> guard, std::function<void()> effect);
+        StateTransition(std::shared_ptr<State> &source, std::shared_ptr<State> &target);
+        virtual ~StateTransition() = default;
 
         std::shared_ptr<State> &getSourceState() const;
         std::shared_ptr<State> &getTargetState() const;
-        void effect();
+        virtual bool guard(const Event &trigger);
+        virtual void effect();
 
     private:
-        StateMachine &_context;
         std::shared_ptr<State> &_source;
         std::shared_ptr<State> &_target;
+        std::function<bool(const Event &)> &_guard;
         std::function<void()> &_effect;
     };
 
-    StateMachine(Dispatcher &dispatcher, std::shared_ptr<State> &initialState);
+    StateMachine(Dispatcher &dispatcher);
 
+    void start(std::shared_ptr<State> &initialState);
     void update(const sf::Time deltaT);
     void executeTransition(StateTransition &transition);
     Dispatcher &getDispatcher() const;
