@@ -5,7 +5,9 @@
 
 #include <SFML/System.hpp>
 
+#include <map>
 #include <functional>
+#include <memory>
 
 class StateMachine
 {
@@ -20,37 +22,42 @@ public:
         virtual void exit();
         virtual void update(const sf::Time deltaT);
 
-        virtual void handleEvent(const Event &event);
+        void handleEvent(const Event &event);
+
+    protected:
+        void registerEventResponse(const std::string eventId, const std::function<void(const Event &)> &response);
 
     private:
         StateMachine &_owner;
+        Dispatcher _eventResponse;
     };
 
     class StateTransition
     {
     public:
-        StateTransition(StateMachine &context, State &source, State &target, std::function<void()> effect);
+        StateTransition(StateMachine &context, std::shared_ptr<State> &source, std::shared_ptr<State> &target, std::function<void()> &effect);
 
-        State &getSourceState() const;
-        State &getTargetState() const;
+        std::shared_ptr<State> &getSourceState() const;
+        std::shared_ptr<State> &getTargetState() const;
         void effect();
 
     private:
         StateMachine &_context;
-        State &_source;
-        State &_target;
-        std::function<void()> _effect;
+        std::shared_ptr<State> &_source;
+        std::shared_ptr<State> &_target;
+        std::function<void()> &_effect;
     };
 
-    StateMachine(Dispatcher &dispatcher);
+    StateMachine(Dispatcher &dispatcher, std::shared_ptr<State> &initialState);
 
     void update(const sf::Time deltaT);
+    void executeTransition(StateTransition &transition);
     Dispatcher &getDispatcher() const;
     State &getState() const;
 
 private:
     Dispatcher &_dispatcher;
-    State &_currentState;
+    std::shared_ptr<State> _currentState;
 
-    void setState(State &state);
+    void setState(std::shared_ptr<State> &state);
 };

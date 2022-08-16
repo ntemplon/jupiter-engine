@@ -1,6 +1,6 @@
 #include <StateMachine.hpp>
 
-StateMachine::State::State(StateMachine &owner) : _owner(owner)
+StateMachine::State::State(StateMachine &owner) : _owner(owner), _eventResponse()
 {
 }
 
@@ -18,22 +18,28 @@ void StateMachine::State::update(const sf::Time deltaT)
 
 void StateMachine::State::handleEvent(const Event &event)
 {
+    this->_eventResponse.dispatch(event);
+}
+
+void StateMachine::State::registerEventResponse(const std::string eventId, const std::function<void(const Event &)> &response)
+{
+    this->_eventResponse.subscribe(eventId, response);
 }
 
 StateMachine::StateTransition::StateTransition(StateMachine &context,
-                                               State &source,
-                                               State &target,
-                                               std::function<void()> effect)
+                                               std::shared_ptr<State> &source,
+                                               std::shared_ptr<State> &target,
+                                               std::function<void()> &effect)
     : _context(context), _source(source), _target(target), _effect(effect)
 {
 }
 
-StateMachine::State &StateMachine::StateTransition::getSourceState() const
+std::shared_ptr<StateMachine::State> &StateMachine::StateTransition::getSourceState() const
 {
     return this->_source;
 }
 
-StateMachine::State &StateMachine::StateTransition::getTargetState() const
+std::shared_ptr<StateMachine::State> &StateMachine::StateTransition::getTargetState() const
 {
     return this->_target;
 }

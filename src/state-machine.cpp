@@ -1,5 +1,9 @@
 #include <StateMachine.hpp>
 
+StateMachine::StateMachine(Dispatcher &dispatcher, std::shared_ptr<State> &initialState) : _dispatcher(dispatcher), _currentState(initialState)
+{
+}
+
 void StateMachine::update(const sf::Time deltaT)
 {
     this->getState().update(deltaT);
@@ -8,4 +12,22 @@ void StateMachine::update(const sf::Time deltaT)
 Dispatcher &StateMachine::getDispatcher() const
 {
     return this->_dispatcher;
+}
+
+StateMachine::State &StateMachine::getState() const
+{
+    return *(this->_currentState);
+}
+
+void StateMachine::setState(std::shared_ptr<State> &state)
+{
+    this->_currentState = state;
+}
+
+void StateMachine::executeTransition(StateTransition &transition)
+{
+    this->getState().exit();
+    this->setState(transition.getTargetState());
+    transition.effect();
+    this->getState().entry();
 }
