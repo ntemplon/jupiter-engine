@@ -45,12 +45,6 @@ StateMachine::StateTransition::StateTransition(std::shared_ptr<State> &source,
 {
 }
 
-StateMachine::StateTransition::StateTransition(std::shared_ptr<State> &source,
-                                               std::shared_ptr<State> &target) : StateMachine::StateTransition(source,
-                                                                                                               target)
-{
-}
-
 std::shared_ptr<StateMachine::State> &StateMachine::StateTransition::getSourceState() const
 {
     return this->_source;
