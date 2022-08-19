@@ -39,7 +39,6 @@ public:
     class StateTransition
     {
     public:
-        StateTransition(std::shared_ptr<State> &source, std::shared_ptr<State> &target, std::function<bool(const Event &)> guard, std::function<void()> effect);
         StateTransition(std::shared_ptr<State> &source, std::shared_ptr<State> &target);
         virtual ~StateTransition() = default;
 
@@ -51,8 +50,6 @@ public:
     private:
         std::shared_ptr<State> &_source;
         std::shared_ptr<State> &_target;
-        std::function<bool(const Event &)> &_guard;
-        std::function<void()> &_effect;
     };
 
     StateMachine(Dispatcher &dispatcher);

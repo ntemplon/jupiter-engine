@@ -40,21 +40,14 @@ void StateMachine::State::registerTransition(const std::string eventId, StateMac
 //                                  StateMachine::StateTransition
 // ==========================================================================================================================================
 StateMachine::StateTransition::StateTransition(std::shared_ptr<State> &source,
-                                               std::shared_ptr<State> &target,
-                                               std::function<bool(const Event &)> guard,
-                                               std::function<void()> effect)
-    : _source(source), _target(target), _guard(guard), _effect(effect)
+                                               std::shared_ptr<State> &target)
+    : _source(source), _target(target)
 {
 }
 
 StateMachine::StateTransition::StateTransition(std::shared_ptr<State> &source,
-                                               std::shared_ptr<State> &target) : StateMachine::StateTransition(
-                                                                                     source,
-                                                                                     target,
-                                                                                     [](const Event &event)
-                                                                                     { return true; },
-                                                                                     []()
-                                                                                     { return; })
+                                               std::shared_ptr<State> &target) : StateMachine::StateTransition(source,
+                                                                                                               target)
 {
 }
 
@@ -66,14 +59,4 @@ std::shared_ptr<StateMachine::State> &StateMachine::StateTransition::getSourceSt
 std::shared_ptr<StateMachine::State> &StateMachine::StateTransition::getTargetState() const
 {
     return this->_target;
-}
-
-bool StateMachine::StateTransition::guard(const Event &trigger)
-{
-    return this->_guard(trigger);
-}
-
-void StateMachine::StateTransition::effect()
-{
-    this->_effect();
 }
