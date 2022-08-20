@@ -8,12 +8,12 @@ LambdaTransition::LambdaTransition(std::shared_ptr<StateMachine::State> &source,
 {
 }
 
-bool LambdaTransition::guard(const Event &trigger)
+bool LambdaTransition::guard(const Event &trigger) const
 {
     return this->_guard(trigger);
 }
 
-void LambdaTransition::effect()
+void LambdaTransition::effect() const
 {
     this->_effect();
 }

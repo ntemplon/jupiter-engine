@@ -24,7 +24,7 @@ void StateMachine::setState(std::shared_ptr<State> &state)
     this->_currentState = state;
 }
 
-void StateMachine::executeTransition(StateTransition &transition)
+void StateMachine::executeTransition(const StateTransition &transition)
 {
     this->getState().exit();
     this->setState(transition.getTargetState());

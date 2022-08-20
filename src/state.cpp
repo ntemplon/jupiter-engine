@@ -29,7 +29,7 @@ void StateMachine::State::registerEventResponse(const std::string eventId, const
     this->_eventResponse.subscribe(eventId, response);
 }
 
-void StateMachine::State::registerTransition(const std::string eventId, StateMachine::StateTransition &transition)
+void StateMachine::State::registerTransition(const std::string eventId, const StateMachine::StateTransition &transition)
 {
     // Assert that the transition starts here?
     this->registerEventResponse(eventId, [&](const Event &event)
@@ -55,12 +55,12 @@ std::shared_ptr<StateMachine::State> &StateMachine::StateTransition::getTargetSt
     return this->_target;
 }
 
-bool StateMachine::StateTransition::guard(const Event &event)
+bool StateMachine::StateTransition::guard(const Event &event) const
 {
     return true;
 }
 
-void StateMachine::StateTransition::effect()
+void StateMachine::StateTransition::effect() const
 {
     return;
 }

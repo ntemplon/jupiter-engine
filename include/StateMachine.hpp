@@ -28,7 +28,7 @@ public:
         void handleEvent(const Event &event);
 
         void registerEventResponse(const std::string eventId, const std::function<void(const Event &)> &response);
-        void registerTransition(const std::string eventId, StateTransition &transition);
+        void registerTransition(const std::string eventId, const StateTransition &transition);
 
     private:
         StateMachine &_owner;
@@ -43,8 +43,8 @@ public:
 
         std::shared_ptr<State> &getSourceState() const;
         std::shared_ptr<State> &getTargetState() const;
-        virtual bool guard(const Event &trigger);
-        virtual void effect();
+        virtual bool guard(const Event &trigger) const;
+        virtual void effect() const;
 
     private:
         std::shared_ptr<State> &_source;
@@ -55,7 +55,7 @@ public:
 
     void start(std::shared_ptr<State> &initialState);
     void update(const sf::Time deltaT);
-    void executeTransition(StateTransition &transition);
+    void executeTransition(const StateTransition &transition);
     Dispatcher &getDispatcher() const;
     State &getState() const;
 

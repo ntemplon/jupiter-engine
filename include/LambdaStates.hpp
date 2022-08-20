@@ -5,12 +5,12 @@ class LambdaTransition : public StateMachine::StateTransition
 public:
     LambdaTransition(std::shared_ptr<StateMachine::State> &source, std::shared_ptr<StateMachine::State> &target, std::function<bool(const Event &)> guard, std::function<void()> effect);
 
-    bool guard(const Event &trigger);
-    void effect();
+    bool guard(const Event &trigger) const;
+    void effect() const;
 
 private:
-    std::function<bool(const Event &)> &_guard;
-    std::function<void()> &_effect;
+    std::function<bool(const Event &)> _guard;
+    std::function<void()> _effect;
 };
 
 class LambdaState : public StateMachine::State
