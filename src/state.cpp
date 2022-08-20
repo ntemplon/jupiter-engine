@@ -54,3 +54,13 @@ std::shared_ptr<StateMachine::State> &StateMachine::StateTransition::getTargetSt
 {
     return this->_target;
 }
+
+bool StateMachine::StateTransition::guard(const Event &event)
+{
+    return true;
+}
+
+void StateMachine::StateTransition::effect()
+{
+    return;
+}

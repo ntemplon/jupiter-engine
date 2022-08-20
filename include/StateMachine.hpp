@@ -44,8 +44,8 @@ public:
 
         std::shared_ptr<State> &getSourceState() const;
         std::shared_ptr<State> &getTargetState() const;
-        virtual bool guard(const Event &trigger) = 0;
-        virtual void effect() = 0;
+        virtual bool guard(const Event &trigger);
+        virtual void effect();
 
     private:
         std::shared_ptr<State> &_source;
