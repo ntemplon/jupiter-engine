@@ -1,10 +1,9 @@
 #include <LambdaStates.hpp>
 
-LambdaTransition::LambdaTransition(std::shared_ptr<StateMachine::State> &source,
-                                   std::shared_ptr<StateMachine::State> &target,
+LambdaTransition::LambdaTransition(std::shared_ptr<StateMachine::State> &target,
                                    std::function<bool(const Event &)> guard,
                                    std::function<void()> effect)
-    : StateTransition(source, target), _guard(guard), _effect(effect)
+    : StateTransition(target), _guard(guard), _effect(effect)
 {
 }
 

@@ -29,6 +29,7 @@ public:
 
         void registerEventResponse(const std::string eventId, const std::function<void(const Event &)> &response);
         void registerTransition(const std::string eventId, const StateTransition &transition);
+        void registerTransition(const std::string eventId, std::shared_ptr<State> &target);
 
     private:
         StateMachine &_owner;
@@ -38,16 +39,14 @@ public:
     class StateTransition
     {
     public:
-        StateTransition(std::shared_ptr<State> &source, std::shared_ptr<State> &target);
+        StateTransition(std::shared_ptr<State> &target);
         virtual ~StateTransition() = default;
 
-        std::shared_ptr<State> &getSourceState() const;
         std::shared_ptr<State> &getTargetState() const;
         virtual bool guard(const Event &trigger) const;
         virtual void effect() const;
 
     private:
-        std::shared_ptr<State> &_source;
         std::shared_ptr<State> &_target;
     };
 

@@ -36,18 +36,17 @@ void StateMachine::State::registerTransition(const std::string eventId, const St
                                 { if(transition.guard(event)) _owner.executeTransition(transition); });
 }
 
+void StateMachine::State::registerTransition(const std::string eventId, std::shared_ptr<StateMachine::State> &target)
+{
+    this->registerTransition(eventId, StateMachine::StateTransition(target));
+}
+
 // ==========================================================================================================================================
 //                                  StateMachine::StateTransition
 // ==========================================================================================================================================
-StateMachine::StateTransition::StateTransition(std::shared_ptr<State> &source,
-                                               std::shared_ptr<State> &target)
-    : _source(source), _target(target)
+StateMachine::StateTransition::StateTransition(std::shared_ptr<State> &target)
+    : _target(target)
 {
-}
-
-std::shared_ptr<StateMachine::State> &StateMachine::StateTransition::getSourceState() const
-{
-    return this->_source;
 }
 
 std::shared_ptr<StateMachine::State> &StateMachine::StateTransition::getTargetState() const
