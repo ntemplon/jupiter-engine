@@ -27,7 +27,6 @@ public:
 
         void handleEvent(const Event &event);
 
-    protected:
         void registerEventResponse(const std::string eventId, const std::function<void(const Event &)> &response);
         void registerTransition(const std::string eventId, StateTransition &transition);
 
