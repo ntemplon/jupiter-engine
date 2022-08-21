@@ -47,6 +47,9 @@ public:
      * Dispatches the provided event to all subscribed observers. All observer that subscribed to event.getType() will be invoked in the same
      * order that they subscribed. Global subscribers are called after specific subscribers.
      *
+     * dispatch() should be used over queue() / flush() when the event should be handled immediately, before execution in the current method
+     * resumes. This is useful for in-frame communcation or small status updates that should be conveyed to other entities as soon as possible.
+     *
      * @param event The event to dispatch
      */
     void dispatch(const Event &event);
@@ -56,6 +59,9 @@ public:
      *
      * Queues the provided event. It will be dispatched to all subscribed observers the next time flush() is called. All observer that subscribed
      * to event.getType() will be invoked in the same order that they subscribed. Global subscribers are called after specific subscribers.
+     *
+     * queue() / flush() should be used over dispatch() when the event should be handled later, such as if the event is likely to trigger significant
+     * effects, like screen transitions that might require destroying the object creating the event.
      *
      * @param event The event to dispatch
      */
