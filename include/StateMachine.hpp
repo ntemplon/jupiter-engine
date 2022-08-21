@@ -27,7 +27,7 @@ public:
 
         void handleEvent(const Event &event);
 
-        void registerEventResponse(const std::string eventId, const std::function<void(const Event &)> &response);
+        void registerEventResponse(const std::string eventId, const std::function<void(const Event &)> response);
         void registerTransition(const std::string eventId, const StateTransition &transition);
         void registerTransition(const std::string eventId, std::shared_ptr<State> &target);
 

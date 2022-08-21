@@ -24,7 +24,7 @@ void StateMachine::State::handleEvent(const Event &event)
     this->_eventResponse.dispatch(event);
 }
 
-void StateMachine::State::registerEventResponse(const std::string eventId, const std::function<void(const Event &)> &response)
+void StateMachine::State::registerEventResponse(const std::string eventId, const std::function<void(const Event &)> response)
 {
     this->_eventResponse.subscribe(eventId, response);
 }
