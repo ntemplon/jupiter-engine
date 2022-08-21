@@ -26,12 +26,9 @@ void Dispatcher::dispatch(const Event &event)
         }
     }
 
-    if (!_globalObservers.empty())
+    // Send the event to the global listeners, in subscription order
+    for (auto &observer : _globalObservers)
     {
-        // Send the event to the global listeners, in subscription order
-        for (auto &observer : _globalObservers)
-        {
-            observer(event);
-        }
+        observer(event);
     }
 }
