@@ -53,6 +53,7 @@ public:
     StateMachine(Dispatcher &dispatcher);
 
     void start(std::shared_ptr<State> &initialState);
+    bool isStarted() const;
     void update(const sf::Time deltaT);
     void executeTransition(const StateTransition &transition);
     Dispatcher &getDispatcher() const;

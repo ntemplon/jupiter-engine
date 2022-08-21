@@ -4,6 +4,18 @@ StateMachine::StateMachine(Dispatcher &dispatcher) : _dispatcher(dispatcher)
 {
 }
 
+void StateMachine::start(std::shared_ptr<StateMachine::State> &initialState)
+{
+    this->setState(initialState);
+    this->getState().entry();
+}
+
+bool StateMachine::isStarted() const
+{
+    // _currentState starts out null and is initialized at start(), so this is a direct way to check if we've started
+    return _currentState != nullptr;
+}
+
 void StateMachine::update(const sf::Time deltaT)
 {
     this->getState().update(deltaT);
