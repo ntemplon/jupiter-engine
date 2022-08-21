@@ -2,13 +2,13 @@
 
 #include <iostream>
 
-void Dispatcher::subscribe(const std::string type, const std::function<void(const Event &)> &observer)
+void Dispatcher::subscribe(const std::string type, const std::function<void(const Event &)> observer)
 {
     // Push to back so the call order matches subscriber order
     _observers[type].push_back(observer);
 }
 
-void Dispatcher::subscribeGlobal(const std::function<void(const Event &)> &observer)
+void Dispatcher::subscribeGlobal(const std::function<void(const Event &)> observer)
 {
     // Push to back so the call order matches subscriber order
     _globalObservers.push_back(observer);

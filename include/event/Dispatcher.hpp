@@ -28,18 +28,18 @@ public:
      *
      * @param type The string identifying the type of event. This is idiomatically declared as a static member in the class that produces
      * the event.
-     * @param observer The function to be invoked when the event is dispatched. It is assumed this function's lifetime will be at least as long
-     * as that of the dispatcher.
+     * @param observer The function to be invoked when the event is dispatched. It is assumed any references used by the function will be valid
+     * for at least as long as the dispatcher exists.
      */
-    void subscribe(const std::string type, const std::function<void(const Event &)> &observer);
+    void subscribe(const std::string type, const std::function<void(const Event &)> observer);
 
     /**
      * @brief Subscribe a specific listener to all event types
      *
-     * @param observer The function to be invoked when the event is dispatched. It is assumed this function's lifetime will be at least as long
-     * as that of the dispatcher.
+     * @param observer The function to be invoked when the event is dispatched. It is assumed any references used by the function will be valid
+     * for at least as long as the dispatcher exists.
      */
-    void subscribeGlobal(const std::function<void(const Event &)> &observer);
+    void subscribeGlobal(const std::function<void(const Event &)> observer);
 
     /**
      * @brief Dispatches an event
