@@ -62,7 +62,6 @@ public:
 private:
     Dispatcher &_dispatcher;
     std::shared_ptr<State> _currentState;
-    std::function<void(const Event &)> _forwardEvents;
 
     void setState(std::shared_ptr<State> &state);
 };

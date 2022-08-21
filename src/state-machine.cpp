@@ -1,13 +1,9 @@
 #include <StateMachine.hpp>
 
-StateMachine::StateMachine(Dispatcher &dispatcher) : _dispatcher(dispatcher),
-                                                     _forwardEvents([&](const Event &event)
-                                                                    { if (_currentState)
-                                                                        {
-                                                                            _currentState->handleEvent(event);
-                                                                        } })
+StateMachine::StateMachine(Dispatcher &dispatcher) : _dispatcher(dispatcher)
 {
-    _dispatcher.subscribeGlobal(_forwardEvents);
+    _dispatcher.subscribeGlobal([&](const Event &event)
+                                { return; });
 }
 
 void StateMachine::start(std::shared_ptr<StateMachine::State> &initialState)
