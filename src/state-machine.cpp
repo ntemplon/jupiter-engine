@@ -2,6 +2,11 @@
 
 StateMachine::StateMachine(Dispatcher &dispatcher) : _dispatcher(dispatcher)
 {
+    _dispatcher.subscribeGlobal([&](const Event &event)
+                                { if(_currentState)
+                                {
+                                    _currentState->handleEvent(event);
+                                }; });
 }
 
 void StateMachine::start(std::shared_ptr<StateMachine::State> &initialState)
