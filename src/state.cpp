@@ -32,8 +32,8 @@ void StateMachine::State::registerEventResponse(const std::string eventId, const
 void StateMachine::State::registerTransition(const std::string eventId, const StateMachine::StateTransition &transition)
 {
     // Assert that the transition starts here?
-    this->registerEventResponse(eventId, [&](const Event &event)
-                                { if(transition.guard(event)) _owner.executeTransition(transition); });
+    this->registerEventResponse(eventId, [transition, this](const Event &event)
+                                { if(transition.guard(event)) this->_owner.executeTransition(transition); });
 }
 
 void StateMachine::State::registerTransition(const std::string eventId, std::shared_ptr<StateMachine::State> &target)
