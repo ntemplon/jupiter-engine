@@ -64,4 +64,5 @@ private:
     std::shared_ptr<State> _currentState;
 
     void setState(std::shared_ptr<State> &state);
+    void passEventToCurrentState(const Event &event);
 };

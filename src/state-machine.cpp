@@ -2,8 +2,8 @@
 
 StateMachine::StateMachine(Dispatcher &dispatcher) : _dispatcher(dispatcher)
 {
-    _dispatcher.subscribeGlobal([&](const Event &event)
-                                { return; });
+    _dispatcher.subscribeGlobal([this](const Event &event)
+                                { this->passEventToCurrentState(event); });
 }
 
 void StateMachine::start(std::shared_ptr<StateMachine::State> &initialState)
@@ -44,4 +44,12 @@ void StateMachine::executeTransition(const StateTransition &transition)
     this->setState(transition.getTargetState());
     transition.effect();
     this->getState().entry();
+}
+
+void StateMachine::passEventToCurrentState(const Event &event)
+{
+    if (this->isStarted())
+    {
+        this->getState().handleEvent(event);
+    }
 }
