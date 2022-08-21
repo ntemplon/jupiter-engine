@@ -16,7 +16,7 @@ void Dispatcher::subscribeGlobal(const std::function<void(const Event &)> &obser
 
 void Dispatcher::dispatch(const Event &event)
 {
-    if (_observers.find(event.getType()) != _observers.end())
+    if (!(_observers.find(event.getType()) == _observers.end()))
     {
         // Case - one or more observers has subscribed to this event
         // Iterate through all of them and invoke each one in order
