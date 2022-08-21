@@ -29,7 +29,7 @@ void LambdaState::entry()
 
 void LambdaState::exit()
 {
-    this->exit();
+    this->_exit();
 }
 
 void LambdaState::update(const sf::Time deltaT)
