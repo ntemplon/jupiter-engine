@@ -34,10 +34,18 @@ public:
     void subscribe(const std::string type, const std::function<void(const Event &)> &observer);
 
     /**
+     * @brief Subscribe a specific listener to all event types
+     *
+     * @param observer The function to be invoked when the event is dispatched. It is assumed this function's lifetime will be at least as long
+     * as that of the dispatcher.
+     */
+    void subscribeGlobal(const std::function<void(const Event &)> &observer);
+
+    /**
      * @brief Dispatches an event
      *
      * Dispatches the provided event to all subscribed observers. All observer that subscribed to event.getType() will be invoked in the same
-     * order that they subscribed.
+     * order that they subscribed. Global subscribers are called after specific subscribers.
      *
      * @param event The event to dispatch
      */
@@ -45,4 +53,5 @@ public:
 
 private:
     std::map<std::string, std::vector<std::function<void(const Event &)>>> _observers;
+    std::vector<std::function<void(const Event &)>> _globalObservers;
 };
