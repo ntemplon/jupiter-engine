@@ -34,5 +34,5 @@ void LambdaState::exit()
 
 void LambdaState::update(const sf::Time deltaT)
 {
-    this->update(deltaT);
+    this->_update(deltaT);
 }
