@@ -32,3 +32,17 @@ void Dispatcher::dispatch(const Event &event)
         observer(event);
     }
 }
+
+void Dispatcher::queue(const Event &event)
+{
+    this->_queue.push_back(event);
+}
+
+void Dispatcher::flush()
+{
+    for (auto &event : _queue)
+    {
+        this->dispatch(event);
+    }
+    _queue.clear();
+}

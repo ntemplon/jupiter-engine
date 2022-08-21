@@ -51,7 +51,25 @@ public:
      */
     void dispatch(const Event &event);
 
+    /**
+     * @brief Queues an event to be dispatched later
+     *
+     * Queues the provided event. It will be dispatched to all subscribed observers the next time flush() is called. All observer that subscribed
+     * to event.getType() will be invoked in the same order that they subscribed. Global subscribers are called after specific subscribers.
+     *
+     * @param event The event to dispatch
+     */
+    void queue(const Event &event);
+
+    /**
+     * @brief Dispatches all queued events
+     *
+     * Events are dispatched in the order they were queued
+     */
+    void flush();
+
 private:
     std::map<std::string, std::vector<std::function<void(const Event &)>>> _observers;
     std::vector<std::function<void(const Event &)>> _globalObservers;
+    std::vector<Event> _queue;
 };
